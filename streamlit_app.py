@@ -300,11 +300,11 @@ def etaInv_VarSpeed(input_n,input_PelMotor,input_tAmb,V_Dis,file_name):   # 计�
 st.title("🎈 Compressor COP calculation")
 # 输入
 compressor_name = st.text_input("Compressor Name", value="VESH11C_20567_r")
-V_Dis = st.number_input("V_Dis (cm3)", value=10)
+V_Dis = st.number_input("V_Dis (cm3)", value=10)/1000000
 T_evap = st.number_input("Evaporating Temperature (°C)", value=-25.0)
 T_cond = st.number_input("Condensing Temperature (°C)", value=35.0)
 tSuc = st.number_input("Suction Temperature (°C)", value=25.0)
-nCompressor = st.number_input("Compressor Speed (RPM)", value=1500.0)
+nCompressor = st.number_input("Compressor Speed (RPM)", value=1500.0)/60
 if st.button("Calculate COP"):
     # 计算逻辑
     p0 =CP.PropsSI('P','T',T_evap +273.15,'Q',0,'R600a')
