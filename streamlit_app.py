@@ -331,6 +331,7 @@ if st.button("Calculate COP"):
     Qc =m_flow *(h2 -h3 ) 
     P_el=Pis/etaIs
     COP=Q0/P_el
-    print("COP=",COP)
-    print("Pel=",P_el)
-    print("Q0=",Q0)
+    st.write(f"COP={COP}")
+    st.write(f"Pel={P_el}")
+    st.write(f"Q0={Q0}")
+
