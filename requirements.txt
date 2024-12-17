@@ -2,3 +2,4 @@ streamlit
 CoolProp
 pandas
 numpy
+openpyxl
