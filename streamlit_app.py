@@ -305,7 +305,6 @@ T_evap = st.number_input("Evaporating Temperature (°C)", value=-25.0)
 T_cond = st.number_input("Condensing Temperature (°C)", value=35.0)
 tSuc = st.number_input("Suction Temperature (°C)", value=25.0)
 nCompressor = st.number_input("Compressor Speed (RPM)", value=1500.0)
-df = pd.read_excel('Messdata.xlsx',sheet_name=compressor_name)
 if st.button("Calculate COP"):
     # 计算逻辑
     p0 =CP.PropsSI('P','T',T_evap +273.15,'Q',0,'R600a')
