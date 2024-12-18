@@ -254,7 +254,7 @@ if st.button("Calculate COP"):
     h2_Is =CP.PropsSI('H','S',s ,'P',pc ,'R600a')               
     Pis =m_flow *(h2_Is -h1 )
     dTSat =T_cond -T_evap 
-    etaIs =etaIsCalc1(nCompressor ,h1 ,Pis ,pi ,dTSat ,V_Dis,compressor_name)
+    etaIs =etaIsCalc1(nCompressor ,Pis ,pi ,dTSat ,V_Dis,compressor_name)
     h2 =h1 +(h2_Is -h1 )/etaIs 
     Qc =m_flow *(h2 -h3 ) 
     P_el=Pis/etaIs
