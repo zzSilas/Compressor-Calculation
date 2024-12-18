@@ -77,7 +77,7 @@ def lambdaCalc(input_n,input_pi,input_pC,input_rhoSuc,V_Dis,file_name):   #计�
     B=B.reshape(1,-1)
     Lambda=np.dot(B,c)
     return (Lambda[0][0])
-def etaIsCalc1(input_n,input_hIn,input_Pis,input_pi,input_dTSat,V_Dis,file_name):    #计算压缩机等熵效率
+def etaIsCalc1(input_n,input_Pis,input_pi,input_dTSat,V_Dis,file_name):    #计算压缩机等熵效率
     import pandas as pd
     import CoolProp.CoolProp as CP
     import numpy as np
@@ -133,79 +133,6 @@ def etaIsCalc1(input_n,input_hIn,input_Pis,input_pi,input_dTSat,V_Dis,file_name)
     speed1=speed/60                       # 压缩机测试数据中转速单位为RPM，需换算成每秒
     speed2=speed1**2
 
-    A2=np.zeros((nDataPoints,8))
-    for i in range(nDataPoints):
-        A2[i,0]=1
-        A2[i,1]=hIn[i][0]
-        A2[i,2]=speed1[i][0]
-        A2[i,3]=speed2[i][0]
-        A2[i,4]=pi[i][0]
-        A2[i,5]=Pis[i][0]
-        A2[i,6]=Pis[i][0]*Pis[i][0]
-        A2[i,7]=dTSat[i][0]
-    
-    y2=etaIs
-    c2,residuals,rank,s=np.linalg.lstsq(A2,y2,rcond=None)
-
-    B2=np.array([1,input_hIn,input_n,(input_n)**2,input_pi,input_Pis,input_Pis**2,input_dTSat],dtype=object)
-    B2=B2.reshape(1,-1)
-    etaIs=np.dot(B2,c2)
-    return (etaIs[0][0])
-def etaIsCalc2(input_n,input_Pis,input_pi,input_dTSat,V_Dis,file_name):   # 计算压缩机等熵效率，未拟合回气焓值
-    import pandas as pd
-    import CoolProp.CoolProp as CP
-    import numpy as np
-    df = pd.read_excel('Messdata.xlsx',sheet_name=file_name)
-    tC=df.iloc[:,0].values      #行向量
-    t0=df.iloc[:,1].values
-    speed=df.iloc[:,2].values
-    Pel=df.iloc[:,3].values
-    etaInv=df.iloc[:,4].values
-    tRoom=df.iloc[:,5].values
-    tSuc=df.iloc[:,6].values
-    tDis=df.iloc[:,7].values
-    tShellTop=df.iloc[:,8].values
-    tShellBottom=df.iloc[:,9].values
-    m_flow_gh=df.iloc[:,10].values          # 压缩机实验测得的实际制冷剂流量
-    pC=CP.PropsSI('P','T',tC+273.15,'Q',0,'R600a')
-    p0=CP.PropsSI('P','T',t0+273.15,'Q',0,'R600a')
-    #t=np.array(tSuc+273.15)
-    #p=np.array(p0)
-    hIn=CP.PropsSI('H','T',np.array(tSuc+273.15),'P',np.array(p0),'R600a')    # 回气点的焓值
-    s=CP.PropsSI('S','T',np.array(tSuc+273.15),'P',np.array(p0),'R600a')
-    rhoSuc=CP.PropsSI('D','T',np.array(tSuc+273.15),'P',np.array(p0),'R600a')
-    #t1=np.array(tSuc+273.15)
-    #p1=np.array(p0)
-    #p2=(pC)
-    
-    hIs_pC=CP.PropsSI('H','S',s,'P',np.array(pC),'R600a')
-    Pis=m_flow_gh/3600000*(hIs_pC-hIn)
- 
-    pi=pC/p0
-        
-    V_flow=m_flow_gh/3600000/rhoSuc
-    V_flowTheo=V_Dis*speed/60         # 理论制冷剂流量
-    lamda=V_flow/V_flowTheo           # 容积效率计算
-    PelMotor=Pel/etaInv
-    etaIs=Pis/PelMotor                # 等熵效率
-    nDataPoints=len(tC)               # 统计实验数据组
-
-    lamda=lamda.reshape((-1,1))       # 固定一列,行自动算,即转换成列向量
-    pi=pi.reshape((-1,1))
-    speed=(speed.reshape((-1,1)))
-    pC=pC.reshape((-1,1))
-    rhoSuc=rhoSuc.reshape((-1,1))
-    #inputData=np.hstack((lamda,pi,speed,pC,rhoSuc))
- 
-    etaIs=etaIs.reshape((-1,1))
-    hIn=hIn.reshape((-1,1))
-    Pis=Pis.reshape((-1,1))
-    dTSat=tC-t0
-    dTSat=dTSat.reshape((-1,1))
-    #inputData=np.hstack((etaIs,hIn,speed,pi,Pis,dTSat))
-    speed1=speed/60
-    speed2=speed1**2
- 
     A2=np.zeros((nDataPoints,7))
     for i in range(nDataPoints):
         A2[i,0]=1
@@ -215,12 +142,13 @@ def etaIsCalc2(input_n,input_Pis,input_pi,input_dTSat,V_Dis,file_name):   # 计�
         A2[i,4]=Pis[i][0]
         A2[i,5]=Pis[i][0]*Pis[i][0]
         A2[i,6]=dTSat[i][0]
+    
     y2=etaIs
     c2,residuals,rank,s=np.linalg.lstsq(A2,y2,rcond=None)
+
     B2=np.array([1,input_n,(input_n)**2,input_pi,input_Pis,input_Pis**2,input_dTSat],dtype=object)
     B2=B2.reshape(1,-1)
     etaIs=np.dot(B2,c2)
-    
     return (etaIs[0][0])
 def etaInv_VarSpeed(input_n,input_PelMotor,input_tAmb,V_Dis,file_name):   # 计算压缩机变频器效率
     import pandas as pd
