@@ -249,7 +249,7 @@ if st.button("Calculate COP"):
     #高压端饱和液态点3,低压端入口点4
     h3 =CP.PropsSI('H','T',T_cond +273.15,'Q',0,'R600a')
     h4 =h3
-    Q0 =m_flow *(h1 -h4 )
+    Q0 =m_flow *(h6 -h4 )
     s =CP.PropsSI('S','T',tSuc +273.15,'P',p0 ,'R600a')
     h2_Is =CP.PropsSI('H','S',s ,'P',pc ,'R600a')               
     Pis =m_flow *(h2_Is -h1 )
