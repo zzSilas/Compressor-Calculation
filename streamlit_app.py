@@ -233,19 +233,19 @@ T_evap = st.number_input("Evaporating Temperature (°C)", value=-25.0)
 T_cond = st.number_input("Condensing Temperature (°C)", value=35.0)
 tSuc = st.number_input("Suction Temperature (°C)", value=25.0)
 nCompressor = st.number_input("Compressor Speed (RPM)", value=1500.0)/60
-st.markdown("""Compressor list	Displacement [cm3]
-VESH11C_20567_r	11.1
-VESF11C_19461r	11.14
-TKF100E20PBEW_DE106_V6253_20915	10.17
-VESH7C_20473	7.23
-VESH9C_20500	9.04
-VMU1113Y_DE106_R6242_20377	8.9
-VMU1111Y_DE106_R6252_20137	7.6
-TKF86_PBE_DE106_V6253_21144	8.64
-TKF68E20PBEW_DE106_V6253_20967	6.8
-TKD91E23PBG_DE106_N6241_19976	9.07
-VTB1113Y_20331	8.9
-VTB1111Y_19269r	7.2
+st.markdown("""Compressor list	Displacement [cm3]  
+VESH11C_20567_r	11.1  
+VESF11C_19461r	11.14  
+TKF100E20PBEW_DE106_V6253_20915	10.17  
+VESH7C_20473	7.23  
+VESH9C_20500	9.04  
+VMU1113Y_DE106_R6242_20377	8.9  
+VMU1111Y_DE106_R6252_20137	7.6  
+TKF86_PBE_DE106_V6253_21144	8.64  
+TKF68E20PBEW_DE106_V6253_20967	6.8  
+TKD91E23PBG_DE106_N6241_19976	9.07  
+VTB1113Y_20331	8.9  
+VTB1111Y_19269r	7.2  
 """)
 if st.button("Calculate COP"):
     # 计算逻辑
